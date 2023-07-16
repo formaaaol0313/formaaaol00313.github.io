@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Calculadora</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        h1 {
+            text-align: center;
+        }
+
+        form {
+            max-width: 300px;
+            margin: 0 auto;
+        }
+
+        input[type="text"], input[type="submit"] {
+            display: block;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        .result {
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .error {
+            color: red;
+        }
+
+        .center {
+            display: flex;
+            justify-content: center;
+        }
+        
+        footer {
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #f9f9f9;
+            padding: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Calculadora que suma, resta y multiplica</h1>
+    <form onsubmit="calculate(event)">
+        <input type="text" id="num1" placeholder="Ingresa el primer número" required>
+        <input type="text" id="operator" placeholder="Ingresa el operador (+, -, *)" required>
+        <input type="text" id="num2" placeholder="Ingresa el segundo número" required>
+        <input type="submit" value="Calcular">
+    </form>
+
+    <div class="result" id="result"></div>
+
+    <div class="center">
+        <button onclick="resetForm()">Limpiar</button>
+    </div>
+    <footer>
+        &copy; 2023 Otero López Andrik Axel.
+    </footer>
+
+    <script>
+        function calculate(event) {
+            event.preventDefault();
+
+            var num1 = parseFloat(document.getElementById("num1").value);
+            var operator = document.getElementById("operator").value;
+            var num2 = parseFloat(document.getElementById("num2").value);
+
+            try {
+                if (isNaN(num1) || isNaN(num2)) {
+                    throw new Error("No es un número válido");
+                }
+
+                var result;
+                switch (operator) {
+                    case '+':
+                        result = num1 + num2;
+                        break;
+                    case '-':
+                        result = num1 - num2;
+                        break;
+                    case '*':
+                        result = num1 * num2;
+                        break;
+                    default:
+                        throw new Error("Operador inválido");
+                }
+
+                document.getElementById("result").textContent = "Resultado: " + result;
+                document.getElementById("result").classList.remove("error");
+            } catch (error) {
+                document.getElementById("result").textContent = "Error: " + error.message;
+                document.getElementById("result").classList.add("error");
+            }
+        }
+
+        function resetForm() {
+            document.getElementById("num1").value = "";
+            document.getElementById("operator").value = "";
+            document.getElementById("num2").value = "";
+            document.getElementById("result").textContent = "";
+            document.getElementById("result").classList.remove("error");
+        }
+    </script>
+</body>
+</html>
